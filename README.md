@@ -33,11 +33,10 @@
     pip3 install -r requirements.txt
     ```
    
-4. Создайте в корне проекта файл .env с настройками
+4. Создайте файл .env и заполните его своими значениями
+
    ```bash
-   APP_TITLE=<Название проекта>
-   APP_DESCRIPTION=<Описание проекта>
-   DATABASE_URL=<Путь самурая к базе данных>
+   cp .env.example .env
    ```
    
 5. Примените миграции
@@ -49,6 +48,11 @@
    ```bash
    uvicorn app.main:app --reload
    ```
+
+
+## Полезные ссылки
+
+[**Swagger Editor**](https://editor.swagger.io/)
 
 ## Автор проекта
 
