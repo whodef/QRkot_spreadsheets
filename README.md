@@ -1,4 +1,4 @@
-# QRKot
+# QRKot Spreadsheets
 
 [![Python](https://img.shields.io/badge/-Python3-464646?style=flat&logo=Python&logoColor=ffffff&color=informational)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/-FastAPI-464646?style=flat&logo=FastAPI&logoColor=ffffff&color=informational)](https://flask.palletsprojects.com/en/2.3.x/)
@@ -48,11 +48,6 @@
    ```bash
    uvicorn app.main:app --reload
    ```
-
-
-## Полезные ссылки
-
-[**Swagger Editor**](https://editor.swagger.io/)
 
 ## Автор проекта
 
