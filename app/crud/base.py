@@ -96,29 +96,3 @@ class CRUDBase:
         query = select(model).where(model.user_id == user_id)
         results = await session.execute(query)
         return results.scalars().all()
-
-    @staticmethod
-    async def get_project_by_completion_rate(
-            session: db.AsyncSession,
-            reverse: bool = False
-    ) -> Union[None, list]:
-        """
-        Получает список закрытых проектов сортированный по
-        разнице между временем открытия и закрытия.
-        """
-        query = select(
-            CharityProject.name,
-            CharityProject.description,
-            (
-                    db.datetime_func(CharityProject.close_date) -
-                    db.datetime_func(CharityProject.create_date)
-            ).label('lifetime')
-        )
-        query = (
-            query.order_by(asc('lifetime')),
-            query.order_by(desc('lifetime'))
-        )[reverse]
-
-        closed_projects = await session.execute(query)
-
-        return closed_projects.all()
