@@ -24,7 +24,7 @@ async def get_report(
     """
     Только для SuperUser.
     """
-    projects = await charity_project_crud.get_projects_by_completion_rate(
+    projects = await get_projects_by_completion_rate(
         session
     )
     spreadsheet_id, spreadsheet_url = await spreadsheets_create(

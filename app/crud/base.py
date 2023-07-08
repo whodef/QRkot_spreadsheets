@@ -8,10 +8,36 @@ from app.core import db
 from app.models import CharityProject, Donation, User
 
 
+async def get_projects_by_completion_rate(
+        session: AsyncSession
+) -> list[dict[str, any]]:
+    """
+    Получение списка проектов, отсортированных по скорости завершения.
+    """
+    projects = await session.execute(
+        select([CharityProject])
+        .where(CharityProject.fully_invested == 1)
+        .order_by(
+            func.julianday(CharityProject.close_date) -
+            func.julianday(CharityProject.create_date)
+        )
+    )
+    projects = projects.scalars().all()
+    return [
+        {
+            'name': project.name,
+            'duration': project.close_date - project.create_date,
+            'description': project.description,
+        }
+        for project in projects
+    ]
+
+
 class CRUDBase:
     """
     Базовый класс с CRUD.
     """
+
     def __init__(self, model):
         self.model = model
 
@@ -71,34 +97,10 @@ class CRUDBase:
         results = await session.execute(query)
         return results.scalars().all()
 
-    async def get_projects_by_completion_rate(
-        self, session: AsyncSession
-    ) -> list[dict[str, any]]:
-        """
-        Получение списка проектов, отсортированных по скорости завершения.
-        """
-        projects = await session.execute(
-            select([CharityProject])
-            .where(CharityProject.fully_invested == 1)
-            .order_by(
-                func.julianday(CharityProject.close_date) -
-                func.julianday(CharityProject.create_date)
-            )
-        )
-        projects = projects.scalars().all()
-        return [
-            {
-                'name': project.name,
-                'duration': project.close_date - project.create_date,
-                'description': project.description,
-            }
-            for project in projects
-        ]
-
+    @staticmethod
     async def get_project_by_completion_rate(
-        self,
-        session: db.AsyncSession,
-        reverse: bool = False
+            session: db.AsyncSession,
+            reverse: bool = False
     ) -> Union[None, list]:
         """
         Получает список закрытых проектов сортированный по
@@ -108,8 +110,8 @@ class CRUDBase:
             CharityProject.name,
             CharityProject.description,
             (
-                db.datetime_func(CharityProject.close_date) -
-                db.datetime_func(CharityProject.create_date)
+                    db.datetime_func(CharityProject.close_date) -
+                    db.datetime_func(CharityProject.create_date)
             ).label('lifetime')
         )
         query = (
