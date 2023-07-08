@@ -1,7 +1,7 @@
 from typing import Optional, Union
 
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import func, select, asc, desc
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core import db
