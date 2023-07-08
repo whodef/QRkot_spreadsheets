@@ -40,4 +40,3 @@ def read_root() -> dict:
         dict: {"Hello, Human":"Let's go to the docs"}
     """
     return {'Hello, Human': 'Let\'s go to the docs'}
-

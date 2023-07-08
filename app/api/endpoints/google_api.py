@@ -1,6 +1,5 @@
-from typing import Dict
 from aiogoogle import Aiogoogle
-from fastapi import APIRouter, Depends, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db import get_async_session
